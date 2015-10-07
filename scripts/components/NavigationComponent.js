@@ -10,12 +10,15 @@ module.exports = React.createClass({
 	render: function() {
 		var links=[];
 		var currentUrl = Backbone.history.getFragment();
+		
+
 		if (currentUrl===''){
 			var home=<li key="home" className="active"><a href="#">Home</a></li>
 		}else{
 			var home=<li key="home"><a href="#">Home</a></li>
 		}
 		if(Parse.User.current()){
+			var name = <a href="#dashboard" className="right name">{Parse.User.current().get('firstname')}</a>
 			if (currentUrl==='dashboard'){
 				links.push(<li key="dashboard" className="active"><a href="#dashboard">Dashboard</a></li>,
 					   <li key="logout" onClick={this.logout}><a href="#">Logout</a></li>)
@@ -41,6 +44,7 @@ module.exports = React.createClass({
 		return (
 			<div className="nav-wrapper">
 				<a href="#" className="brand-logo left">Login Example</a>
+				{name}
 				<ul id="nav-mobile" className="right">
 					{home}
 					{links}

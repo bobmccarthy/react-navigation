@@ -32691,6 +32691,7 @@ module.exports = React.createClass({
 	render: function render() {
 		var links = [];
 		var currentUrl = Backbone.history.getFragment();
+
 		if (currentUrl === '') {
 			var home = React.createElement(
 				'li',
@@ -32713,6 +32714,11 @@ module.exports = React.createClass({
 			);
 		}
 		if (Parse.User.current()) {
+			var name = React.createElement(
+				'a',
+				{ href: '#dashboard', className: 'right name' },
+				Parse.User.current().get('firstname')
+			);
 			if (currentUrl === 'dashboard') {
 				links.push(React.createElement(
 					'li',
@@ -32815,6 +32821,7 @@ module.exports = React.createClass({
 				{ href: '#', className: 'brand-logo left' },
 				'Login Example'
 			),
+			name,
 			React.createElement(
 				'ul',
 				{ id: 'nav-mobile', className: 'right' },
@@ -32869,6 +32876,16 @@ module.exports = React.createClass({
 						React.createElement(
 							"div",
 							{ className: "input-field col s12" },
+							React.createElement("input", { type: "text", ref: "firstName", className: "validate", id: "firstName" }),
+							React.createElement(
+								"label",
+								{ htmlFor: "first_name" },
+								"First Name"
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: "input-field col s12" },
 							React.createElement("input", { type: "text", ref: "email", className: "validate", id: "email_address" }),
 							React.createElement(
 								"label",
@@ -32910,6 +32927,7 @@ module.exports = React.createClass({
 		e.preventDefault();
 		var user = new Parse.User();
 		user.signUp({
+			firstname: this.refs.firstName.getDOMNode().value,
 			username: this.refs.email.getDOMNode().value,
 			password: this.refs.password.getDOMNode().value,
 			email: this.refs.email.getDOMNode().value
